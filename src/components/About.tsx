@@ -1,67 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Stethoscope, Users, Heart, Shield } from 'lucide-react';
 import { LanguageContent } from '../types';
 import { IMAGES } from '../constants';
-import { supabase } from '../lib/supabase';
 
 interface AboutProps {
   content: LanguageContent['about'];
 }
 
-interface Stats {
-  nurseCount: number;
-  patientCount: number;
-}
-
 export const About: React.FC<AboutProps> = ({ content }) => {
-  const [stats, setStats] = useState<Stats>({
-    nurseCount: 0,
-    patientCount: 0
-  });
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        // Get nurse count
-        const { count: nurseCount } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true })
-          .eq('role', 'nurse');
-
-        // Get patient count
-        const { count: patientCount } = await supabase
-          .from('profiles')
-          .select('*', { count: 'exact', head: true })
-          .eq('role', 'patient');
-
-        setStats({
-          nurseCount: nurseCount || 0,
-          patientCount: patientCount || 0
-        });
-      } catch (error) {
-        console.error('Error fetching stats:', error);
-      }
-    };
-
-    fetchStats();
-
-    // Set up real-time subscription for profile changes
-    const subscription = supabase
-      .channel('profile_changes')
-      .on('postgres_changes', { 
-        event: '*', 
-        schema: 'public', 
-        table: 'profiles' 
-      }, () => {
-        fetchStats(); // Refresh stats when profiles change
-      })
-      .subscribe();
-
-    return () => {
-      subscription.unsubscribe();
-    };
-  }, []);
-
   return (
     <section id="about" className="py-20 bg-background" aria-labelledby="about-title">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -86,14 +32,14 @@ export const About: React.FC<AboutProps> = ({ content }) => {
                   <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 bg-primary/5 rounded-full">
                     <Stethoscope className="h-6 w-6 text-primary" />
                   </div>
-                  <div className="font-bold text-2xl text-primary">{stats.nurseCount}+</div>
+                  <div className="font-bold text-2xl text-primary">50+</div>
                   <div className="text-sm text-text-secondary">Nurses</div>
                 </div>
                 <div className="text-center">
                   <div className="flex items-center justify-center w-12 h-12 mx-auto mb-3 bg-secondary/5 rounded-full">
                     <Users className="h-6 w-6 text-secondary" />
                   </div>
-                  <div className="font-bold text-2xl text-primary">{stats.patientCount}+</div>
+                  <div className="font-bold text-2xl text-primary">1000+</div>
                   <div className="text-sm text-text-secondary">Patients</div>
                 </div>
               </div>

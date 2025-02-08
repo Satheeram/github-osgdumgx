@@ -1,6 +1,6 @@
 export interface LanguageContent {
   nav: {
-    language: 'en' | 'ta';  // Add language property to track current language
+    language: 'en' | 'ta';
     home: string;
     services: string;
     about: string;

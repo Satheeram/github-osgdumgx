@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CONTACT_INFO } from '../constants';
 import { LanguageContent } from '../types';
-import { SearchBar } from './SearchBar';
 import { Mail } from 'lucide-react';
 import { ContactForm } from './ContactForm';
 
@@ -18,7 +17,7 @@ const SLIDES = [
   'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80'  // Indian elderly care
 ];
 
-export const Hero: React.FC<HeroProps> = ({ content, language, services }) => {
+export const Hero: React.FC<HeroProps> = ({ content, language }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [showContactForm, setShowContactForm] = useState(false);
 
@@ -95,11 +94,6 @@ export const Hero: React.FC<HeroProps> = ({ content, language, services }) => {
                     </svg>
                     {language === 'en' ? 'WhatsApp Naeyam' : 'நேயம்-ஐ வாட்ஸ்அப் செய்யவும்'}
                   </a>
-                </div>
-                
-                {/* Search Bar */}
-                <div className="relative mt-8">
-                  <SearchBar services={services} language={language} />
                 </div>
               </div>
             </div>

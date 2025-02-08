@@ -110,46 +110,52 @@ ${formData.message}
 
   return (
     <div 
-      className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+      className="fixed inset-0 overflow-y-auto bg-black/50 flex items-center justify-center z-50 p-4 md:p-6"
       role="dialog"
       aria-modal="true"
       aria-labelledby="dialog-title"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
-      <div className="bg-white rounded-2xl max-w-md w-full p-6 relative">
-        <button
-          onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600"
-          aria-label={language === 'en' ? 'Close form (Press ESC to close)' : 'படிவத்தை மூடு (ESC ஐ அழுத்தவும்)'}
-        >
-          <X className="h-5 w-5" />
-        </button>
+      <div className="bg-white rounded-2xl w-full max-w-md max-h-[90vh] overflow-y-auto relative">
+        <div className="sticky top-0 bg-white z-10 px-6 pt-6 pb-4 border-b border-gray-100">
+          <button
+            onClick={onClose}
+            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600"
+            aria-label={language === 'en' ? 'Close form (Press ESC to close)' : 'படிவத்தை மூடு (ESC ஐ அழுத்தவும்)'}
+          >
+            <X className="h-5 w-5" />
+          </button>
 
-        {!submitted ? (
-          <>
-            {/* Service Unavailability Message */}
-            {serviceName && (
-              <div className="mb-6 text-center">
-                <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4">
-                  <BellRing className="h-6 w-6 text-primary" />
-                </div>
-                <h4 className="text-lg font-semibold text-gray-900 mb-2">
-                  {language === 'en' 
-                    ? `${serviceName} is not available yet` 
-                    : `${serviceName} இன்னும் கிடைக்கவில்லை`}
-                </h4>
-                <p className="text-gray-600 text-sm">
-                  {language === 'en'
-                    ? "We're working to expand our services to your area. Fill out this form and we'll notify you as soon as it becomes available!"
-                    : "உங்கள் பகுதிக்கு எங்கள் சேவைகளை விரிவுபடுத்த பணியாற்றி வருகிறோம். இந்த படிவத்தை நிரப்புங்கள், கிடைக்கும் போது உங்களுக்கு தெரிவிப்போம்!"}
-                </p>
+          {serviceName && (
+            <div className="mb-4 text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-primary/10 rounded-full mb-4">
+                <BellRing className="h-6 w-6 text-primary" />
               </div>
-            )}
+              <h4 className="text-lg font-semibold text-gray-900 mb-2">
+                {language === 'en' 
+                  ? `${serviceName} is not available yet` 
+                  : `${serviceName} இன்னும் கிடைக்கவில்லை`}
+              </h4>
+              <p className="text-gray-600 text-sm">
+                {language === 'en'
+                  ? "We're working to expand our services to your area. Fill out this form and we'll notify you as soon as it becomes available!"
+                  : "உங்கள் பகுதிக்கு எங்கள் சேவைகளை விரிவுபடுத்த பணியாற்றி வருகிறோம். இந்த படிவத்தை நிரப்புங்கள், கிடைக்கும் போது உங்களுக்கு தெரிவிப்போம்!"}
+              </p>
+            </div>
+          )}
 
-            <h3 id="dialog-title" className="text-xl font-semibold text-primary mb-4 flex items-center gap-2">
-              <Mail className="h-5 w-5" />
-              {language === 'en' ? 'Contact Naeyam' : 'நேயம்-ஐ தொடர்பு கொள்ளவும்'}
-            </h3>
+          <h3 id="dialog-title" className="text-xl font-semibold text-primary flex items-center gap-2">
+            <Mail className="h-5 w-5" />
+            {language === 'en' ? 'Contact Naeyam' : 'நேயம்-ஐ தொடர்பு கொள்ளவும்'}
+          </h3>
+        </div>
 
+        <div className="p-6">
+          {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -254,38 +260,38 @@ ${formData.message}
                 }
               </button>
             </form>
-          </>
-        ) : (
-          <div className="text-center py-8">
-            <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
-              <div className="text-green-500 text-2xl">✓</div>
-            </div>
-            <h3 className="text-xl font-semibold text-primary mb-2">
-              {language === 'en' ? 'Thank You!' : 'நன்றி!'}
-            </h3>
-            <p className="text-gray-600 mb-4">
-              {language === 'en' 
-                ? 'Your email client will open to send your message.' 
-                : 'உங்கள் மின்னஞ்சல் செயலி திறக்கும்.'}
-            </p>
-            {serviceName && (
-              <p className="text-sm text-gray-500">
-                {language === 'en'
-                  ? "We'll notify you when the service becomes available in your area."
-                  : "சேவை உங்கள் பகுதியில் கிடைக்கும்போது உங்களுக்கு தெரிவிப்போம்."}
+          ) : (
+            <div className="text-center py-8">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-green-100 rounded-full mb-4">
+                <div className="text-green-500 text-2xl">✓</div>
+              </div>
+              <h3 className="text-xl font-semibold text-primary mb-2">
+                {language === 'en' ? 'Thank You!' : 'நன்றி!'}
+              </h3>
+              <p className="text-gray-600 mb-4">
+                {language === 'en' 
+                  ? 'Your email client will open to send your message.' 
+                  : 'உங்கள் மின்னஞ்சல் செயலி திறக்கும்.'}
               </p>
-            )}
-            <button
-              onClick={onClose}
-              className="mt-4 text-primary hover:text-primary/80"
-            >
-              {language === 'en' ? 'Close' : 'மூடு'}
-            </button>
-          </div>
-        )}
+              {serviceName && (
+                <p className="text-sm text-gray-500">
+                  {language === 'en'
+                    ? "We'll notify you when the service becomes available in your area."
+                    : "சேவை உங்கள் பகுதியில் கிடைக்கும்போது உங்களுக்கு தெரிவிப்போம்."}
+                </p>
+              )}
+              <button
+                onClick={onClose}
+                className="mt-4 text-primary hover:text-primary/80"
+              >
+                {language === 'en' ? 'Close' : 'மூடு'}
+              </button>
+            </div>
+          )}
+        </div>
 
         {/* ESC key hint */}
-        <div className="absolute bottom-4 right-4">
+        <div className="sticky bottom-0 bg-white px-6 py-3 border-t border-gray-100 text-right">
           <span className="text-xs text-gray-400">
             {language === 'en' ? 'Press ESC to close' : 'மூட ESC ஐ அழுத்தவும்'}
           </span>

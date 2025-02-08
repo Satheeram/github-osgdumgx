@@ -37,7 +37,6 @@ export const Navigation: React.FC<NavigationProps> = ({
     };
   }, [isMenuOpen]);
 
-  // Function to handle smooth scrolling
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -177,4 +176,4 @@ export const Navigation: React.FC<NavigationProps> = ({
       )}
     </nav>
   );
-}
+};

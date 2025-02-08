@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Services } from './components/Services';
@@ -13,13 +13,7 @@ function App() {
   const [language, setLanguage] = useState<'en' | 'ta'>('en');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   
-  const content: LanguageContent = {
-    ...(language === 'en' ? en : ta),
-    nav: {
-      ...(language === 'en' ? en.nav : ta.nav),
-      language
-    }
-  };
+  const content = language === 'en' ? en : ta;
 
   const toggleLanguage = () => {
     setLanguage(prev => prev === 'en' ? 'ta' : 'en');
@@ -42,7 +36,6 @@ function App() {
               <Hero 
                 content={content.hero} 
                 language={language}
-                services={content.services.items}
               />
               <Services content={content.services} />
               {content.services.items.map((service) => (
@@ -60,7 +53,6 @@ function App() {
             </div>
           }
         />
-        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>
   );
